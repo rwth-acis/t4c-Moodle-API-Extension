@@ -27,7 +27,7 @@ $functions = array(
                 'classname'   => 'local_external',
                 'methodname'  => 'get_recent_course_activities',
                 'classpath'   => 'local/t4c_moodle/externallib.php',
-                'description' => 'Returns events since the specified timestamp of modules within courses specified within the settings',
+                'description' => 'Returns events since the specified timestamp of modules within the specified courses',
                 'type'        => 'read',
         )
 );

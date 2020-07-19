@@ -30,34 +30,17 @@ class local_external extends external_api {
      */
     public static function get_recent_course_activities_parameters() {
         return new external_function_parameters(
-                array('since' => new external_value(PARAM_TEXT, 'The timestamp of the oldest events that should be retrieved.'))
+                array('since' => new external_value(PARAM_TEXT, 'The timestamp of the oldest events that should be retrieved.'),
+                      'courseid' => new external_value(PARAM_TEXT, 'The id of the course from which activities should be retrieved'))
         );
     }
-
-    /**
-     * Returns recent event
-     * @return string events
-     */
-     public static function get_recent_course_activities($since){
-        global $DB;
-        // TODO: add courseid parameter (or from setting)
-        // TODO: add module filter from settings
-        $params = self::validate_parameters(self::get_recent_course_activities_parameters(),
-                                             array('since' => $since));
-
-        $events = $DB->get_records_sql('SELECT * FROM {logstore_standard_log} WHERE action = ? AND timecreated > ?',
-                                    array("viewed",$since));
-
-        // TODO: find a better way to format the output
-	      return json_encode($events);
-     }
 
 
      /*
       * Helper function to build the query which retrieves the events specified
       * in the plugin settings.
       */
-     static function get_conditions() {
+     static function get_modules() {
          $modules = '';
 
          if (get_config('local_t4c_moodle','assign') == 1)
@@ -99,11 +82,51 @@ class local_external extends external_api {
           return $modules;
      }
 
+     /**
+      * Returns recent event
+      * @return array events
+      */
+      public static function get_recent_course_activities($since,$courseid){
+         global $DB;
+         // TODO: add module filter from settings
+         $params = self::validate_parameters(self::get_recent_course_activities_parameters(),
+                                              array('since' => $since, 'courseid' => $courseid));
+
+         $events = $DB->get_records_sql('SELECT * FROM {logstore_standard_log} WHERE action = ? AND timecreated > ? AND courseid = ?',
+                                     array("viewed",$since,$courseid));
+
+ 	      return $events;
+      }
+
     /**
      * Returns description of method result value
-     * @return external_description
+     * @return external_multiple_structure
      */
     public static function get_recent_course_activities_returns() {
-        return new external_value(PARAM_TEXT, 'All events since the given timestamp for the courses specified in the plugin settings');
+        return new external_multiple_structure(
+              new external_single_structure(array(
+                'id' => new external_value(PARAM_RAW, "event id"),
+                'eventname' => new external_value(PARAM_RAW, "event name"),
+                'component' => new external_value(PARAM_RAW, "module name"),
+                'action' => new external_value(PARAM_RAW, "type of event"),
+                'target' => new external_value(PARAM_RAW, "object that was interacted with"),
+                'objecttable' => new external_value(PARAM_RAW, "database table where module is stored"),
+                'objectid' => new external_value(PARAM_RAW, "module specific id"),
+                'crud' => new external_value(PARAM_RAW, "type of operation"),
+                'edulevel' => new external_value(PARAM_RAW, "no idea"),
+                'contextid' => new external_value(PARAM_RAW, "context id"),
+                'contextlevel' => new external_value(PARAM_RAW, "no idea"),
+                'contextinstanceid' => new external_value(PARAM_RAW, "context instance id"),
+                'userid' => new external_value(PARAM_RAW, "id of interacting user"),
+                'courseid' => new external_value(PARAM_RAW, "id of course containing module"),
+                'relateduserid' => new external_value(PARAM_RAW, "id of additional involved user"),
+                'anonymous' => new external_value(PARAM_RAW, "no idea"),
+                'other' => new external_value(PARAM_RAW, "free text field"),
+                'timecreated' => new external_value(PARAM_RAW, "timestamp of event"),
+                'origin' => new external_value(PARAM_RAW, "how the event was triggered"),
+                'ip' => new external_value(PARAM_RAW, "ip of event trigger"),
+                'realuserid' => new external_value(PARAM_RAW, "real user id")
+              ))
+          );
     }
 }

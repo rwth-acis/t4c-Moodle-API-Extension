@@ -30,9 +30,6 @@ if ($hassiteconfig) {
     $settings = new admin_settingpage('local_t4c_moodle', new lang_string('pluginname', 'local_t4c_moodle'));
     $ADMIN->add('localplugins', $settings);
 
-	$settings->add(new admin_setting_configtext('local_t4c_moodle/courseids', get_string('local_t4c_moodle_courseids_key', 'local_t4c_moodle'),
-	                   get_string('local_t4c_moodle_courseids', 'local_t4c_moodle'), PARAM_TEXT));
-
 	$settings->add(new admin_setting_configcheckbox('local_t4c_moodle/assign', get_string('local_t4c_moodle_assign_key', 'local_t4c_moodle'),
 	                   get_string('local_t4c_moodle_assign', 'local_t4c_moodle'), 1));
 
