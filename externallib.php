@@ -41,43 +41,40 @@ class local_external extends external_api {
       * in the plugin settings.
       */
      static function get_modules() {
-         $modules = '';
+         $modules = array();
 
          if (get_config('local_t4c_moodle','assign') == 1)
-              $modules .= "'mod_assign',";
+              $modules[] = "'mod_assign'";
 
          if (get_config('local_t4c_moodle','feedback') == 1)
-              $modules .= "'mod_feedback',";
+              $modules[] = "'mod_feedback'";
 
-         if (get_config('local_t4c_moodle','mod_quiz') == 1)
-              $modules .= "'mod_quiz',";
+         if (get_config('local_t4c_moodle','quiz') == 1)
+              $modules[] = "'mod_quiz'";
 
          if (get_config('local_t4c_moodle','url') == 1)
-              $modules .= "'mod_url',";
+              $modules[] = "'mod_url'";
 
          if (get_config('local_t4c_moodle','book') == 1)
-              $modules .= "'mod_book',";
+              $modules[] = "'mod_book'";
 
          if (get_config('local_t4c_moodle','resource') == 1)
-              $modules .= "'mod_resource',";
+              $modules[] = "'mod_resource'";
 
          if (get_config('local_t4c_moodle','page') == 1)
-              $modules .= "'mod_page',";
+              $modules[] = "'mod_page'";
 
          if (get_config('local_t4c_moodle','data') == 1)
-              $modules .= "'mod_data',";
+              $modules[] = "'mod_data'";
 
          if (get_config('local_t4c_moodle','dialogue') == 1)
-              $modules .= "'mod_dialogue',";
+              $modules[] = "'mod_dialogue'";
 
          if (get_config('local_t4c_moodle','forum') == 1)
-              $modules .= "'mod_forum',";
+              $modules[] = "'mod_forum'";
 
          if (get_config('local_t4c_moodle','lesson') == 1)
-               $modules .= "'mod_lesson',";
-
-         if ($modules[$modules->length-1] == ',')
-             $modules = $modules.substr($modules,0,$modules->length-1);
+               $modules[] = "'mod_lesson'";
 
           return $modules;
      }
@@ -87,15 +84,16 @@ class local_external extends external_api {
       * @return array events
       */
       public static function get_recent_course_activities($since,$courseid){
-         global $DB;
-         // TODO: add module filter from settings
-         $params = self::validate_parameters(self::get_recent_course_activities_parameters(),
-                                              array('since' => $since, 'courseid' => $courseid));
+          global $DB;
+          $params = self::validate_parameters(self::get_recent_course_activities_parameters(),
+                                                array('since' => $since, 'courseid' => $courseid));
+          if (!is_numeric($since) or !is_numeric($courseid)) {
+            return [];
+          }
+          $query = "SELECT * FROM {logstore_standard_log} WHERE action = 'viewed' AND timecreated > " .$since. " AND courseid = " .$courseid. " AND component IN (" .implode(',', self::get_modules()). ")";
+          $events = $DB->get_records_sql($query);
 
-         $events = $DB->get_records_sql('SELECT * FROM {logstore_standard_log} WHERE action = ? AND timecreated > ? AND courseid = ?',
-                                     array("viewed",$since,$courseid));
-
- 	      return $events;
+   	      return $events;
       }
 
     /**
