@@ -18,7 +18,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$plugin->version  = 2020072207;   // The (date) version of this module + 2 extra digital for daily versions
+$plugin->version  = 2020072502;   // The (date) version of this module + 2 extra digital for daily versions
                                   // This version number is displayed into /admin/forms.php
                                   // TODO: if ever this plugin get branched, the old branch number
                                   // will not be updated to the current date but just incremented. We will
@@ -27,5 +27,5 @@ $plugin->version  = 2020072207;   // The (date) version of this module + 2 extra
 $plugin->requires = 2019111802.02;  // Requires this Moodle version - at least 2.0
 $plugin->cron     = 0;
 $plugin->release = '3.8.2+ (Build: 20200320)';
-$plugin->maturity = MATURITY_ALPHA;
+$plugin->maturity = MATURITY_STABLE;
 $plugin->component = 'local_t4c_moodle';

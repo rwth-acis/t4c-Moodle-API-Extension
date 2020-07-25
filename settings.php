@@ -30,6 +30,9 @@ if ($hassiteconfig) {
     $settings = new admin_settingpage('local_t4c_moodle', new lang_string('pluginname', 'local_t4c_moodle'));
     $ADMIN->add('localplugins', $settings);
 
+  $settings->add(new admin_setting_configcheckbox('local_t4c_moodle/meta', get_string('local_t4c_moodle_meta_key', 'local_t4c_moodle'),
+	                   get_string('local_t4c_moodle_meta', 'local_t4c_moodle'), 0));
+
 	$settings->add(new admin_setting_configcheckbox('local_t4c_moodle/assign', get_string('local_t4c_moodle_assign_key', 'local_t4c_moodle'),
 	                   get_string('local_t4c_moodle_assign', 'local_t4c_moodle'), 1));
 
@@ -54,12 +57,12 @@ if ($hassiteconfig) {
 	$settings->add(new admin_setting_configcheckbox('local_t4c_moodle/data', get_string('local_t4c_moodle_data_key', 'local_t4c_moodle'),
 	                   get_string('local_t4c_moodle_data', 'local_t4c_moodle'), 1));
 
-	$settings->add(new admin_setting_configcheckbox('local_t4c_moodle/dialogue', get_string('local_t4c_moodle_dialogue_key', 'local_t4c_moodle'),
-	                   get_string('local_t4c_moodle_dialogue', 'local_t4c_moodle'), 1));
-
 	$settings->add(new admin_setting_configcheckbox('local_t4c_moodle/forum', get_string('local_t4c_moodle_forum_key', 'local_t4c_moodle'),
 	                   get_string('local_t4c_moodle_forum', 'local_t4c_moodle'), 1));
 
 	$settings->add(new admin_setting_configcheckbox('local_t4c_moodle/lesson', get_string('local_t4c_moodle_lesson_key', 'local_t4c_moodle'),
 	                   get_string('local_t4c_moodle_lesson', 'local_t4c_moodle'), 1));
+
+	$settings->add(new admin_setting_configcheckbox('local_t4c_moodle/folder', get_string('local_t4c_moodle_folder_key', 'local_t4c_moodle'),
+	                   get_string('local_t4c_moodle_folder', 'local_t4c_moodle'), 1));
 }

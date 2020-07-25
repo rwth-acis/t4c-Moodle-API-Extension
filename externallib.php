@@ -67,14 +67,14 @@ class local_external extends external_api {
          if (get_config('local_t4c_moodle','data') == 1)
               $modules[] = "'mod_data'";
 
-         if (get_config('local_t4c_moodle','dialogue') == 1)
-              $modules[] = "'mod_dialogue'";
-
          if (get_config('local_t4c_moodle','forum') == 1)
               $modules[] = "'mod_forum'";
 
          if (get_config('local_t4c_moodle','lesson') == 1)
                $modules[] = "'mod_lesson'";
+
+          if (get_config('local_t4c_moodle','folder') == 1)
+                $modules[] = "'mod_folder'";
 
           return $modules;
      }
@@ -91,6 +91,8 @@ class local_external extends external_api {
             return [];
           }
           $query = "SELECT * FROM {logstore_standard_log} WHERE action = 'viewed' AND timecreated > " .$since. " AND courseid = " .$courseid. " AND component IN (" .implode(',', self::get_modules()). ")";
+          if (get_config('local_t4c_moodle','meta') == 0)
+            $query .= " AND objectid IS NOT NULL";
           $events = $DB->get_records_sql($query);
 
    	      return $events;

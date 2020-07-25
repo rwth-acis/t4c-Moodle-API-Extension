@@ -21,3 +21,24 @@ local_t4c_moodle.zip
 ```
 
 This zip can then be uploaded to Moodle to install the plugin.
+
+## settings
+
+The plugin settings provide a filter to only return view events of certain Moodle elemets via the `local_t4c_get_recent_course_activities` function.
+To adjust the settings go to `Site administration -> Plugins -> Local plugins -> tech4comp Moodle API Extension` and set the checkboxes of the modules that should be included.
+The following table shows what effect the checkboxes have:
+
+| Key | Description |
+| --- | ----------- |
+| meta | This key comprises multiple types of event targets which are not stored as modules in Moodle (e.g. reports, or editing pages) |
+| assign | Moodle Assignment Activity |
+| feedback | Feedback for Moodle Quizzes or Assignments |
+| quiz | Moodle Quiz Activity |
+| url | Moodle URL Resource |
+| book | Moodle Book Resource |
+| resource | Although resource refers to different kinds of modules, in this context it refres to the Moodle File Resource |
+| page | Moodle Page Resource |
+| data | Moodle Database Activity |
+| forum | Moodle Forum Activity |
+| lesson | Moodle Lesson Activity |
+| folder | Moodle Folder Resource |
