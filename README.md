@@ -29,6 +29,8 @@ local_t4c_moodle.zip
 |   +-- version.php
 ```
 
+Alternatively, the latest stable [release](https://github.com/rwth-acis/t4c-Moodle-API-Extension/releases/tag/v1.0) can be downloaded [here](https://github.com/rwth-acis/t4c-Moodle-API-Extension/releases/download/v1.0/local_t4c_moodle.zip) from GitHub as an already correctly formatted zip.
+
 This zip can then be uploaded to Moodle to install the plugin by going to `Site administration > Plugins > Install plugins`.
 Continue once the plugin has been validated and update the database (*this does not apply any changes to your existing database structure, but is a required step for the Moodle Plugin installation process*).
 Once the plugin has been successfully installed, go to `Site administration > Plugins > Web services > External services`.
